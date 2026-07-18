@@ -93,12 +93,12 @@ jobs:
             "https://cdn.modrinth.com/data/lKEzGugV/versions/vkuwyUC6/PlaceholderAPI-2.11.6.jar"
 
       - name: Install all 1.20.x / 1.21.x modules (JDK 21)
-        run: >
-          mvn install
-          -pl fakeplayer-v1_20_1,fakeplayer-v1_20_2,fakeplayer-v1_20_3,fakeplayer-v1_20_4,fakeplayer-v1_20_5,fakeplayer-v1_20_6,
-          fakeplayer-v1_21,fakeplayer-v1_21_1,fakeplayer-v1_21_3,fakeplayer-v1_21_4,fakeplayer-v1_21_5,
-          fakeplayer-v1_21_6,fakeplayer-v1_21_7,fakeplayer-v1_21_8,fakeplayer-v1_21_9,fakeplayer-v1_21_10
-          -am -Drevision=${{ env.REVISION }} -DskipTests --no-transfer-progress
+        run: |
+          MODULES="fakeplayer-v1_20_1,fakeplayer-v1_20_2,fakeplayer-v1_20_3,fakeplayer-v1_20_4,fakeplayer-v1_20_5,fakeplayer-v1_20_6,"
+          MODULES="$MODULES fakeplayer-v1_21,fakeplayer-v1_21_1,fakeplayer-v1_21_3,fakeplayer-v1_21_4,fakeplayer-v1_21_5,"
+          MODULES="$MODULES fakeplayer-v1_21_6,fakeplayer-v1_21_7,fakeplayer-v1_21_8,fakeplayer-v1_21_9,fakeplayer-v1_21_10"
+          MODULES=$(echo "$MODULES" | tr -d ' ')
+          mvn install -pl "$MODULES" -am -Drevision=${{ env.REVISION }} -DskipTests --no-transfer-progress
 
       - name: Install v26_1_2 (JDK 25)
         run: |
