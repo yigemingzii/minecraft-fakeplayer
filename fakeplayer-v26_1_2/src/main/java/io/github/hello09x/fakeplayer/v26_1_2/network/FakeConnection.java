@@ -15,8 +15,6 @@
  */
 package io.github.hello09x.fakeplayer.v26_1_2.network;
 
-import io.github.hello09x.fakeplayer.core.Main;
-import io.github.hello09x.fakeplayer.core.manager.FakeplayerManager;
 import io.github.hello09x.fakeplayer.core.network.FakeChannel;
 import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.Connection;
@@ -26,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.InetAddress;
-import java.util.logging.Logger;
 
 public class FakeConnection extends Connection {
 
@@ -39,20 +36,38 @@ public class FakeConnection extends Connection {
 
     @Override
     public boolean isConnected() {
-        return true;
+        return super.isConnected();
     }
 
     @Override
     public void send(Packet<?> packet, @Nullable ChannelFutureListener channelfuturelistener) {
+        this.completeSend(channelfuturelistener);
     }
 
     @Override
     public void send(Packet<?> packet, @Nullable ChannelFutureListener channelfuturelistener, boolean flag) {
+        this.completeSend(channelfuturelistener);
     }
 
     @Override
     public void send(Packet<?> packet) {
 
+    }
+
+    private void completeSend(@Nullable ChannelFutureListener listener) {
+        if (listener == null) {
+            return;
+        }
+
+        try {
+            listener.operationComplete(this.channel.newSucceededFuture());
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to complete fake connection send", e);
+        }
+
+        if (!this.isConnected()) {
+            this.handleDisconnection();
+        }
     }
 
 }

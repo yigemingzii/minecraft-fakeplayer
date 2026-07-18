@@ -1,3 +1,7 @@
+/*
+ * Modified by yigemingzii, July 2026
+ * - Route close and disconnect operations through the fake channel state
+ */
 package io.github.hello09x.fakeplayer.core.network;
 
 import io.netty.channel.*;
@@ -246,12 +250,16 @@ public class FakeChannelPipeline implements ChannelPipeline {
 
     @Override
     public ChannelFuture disconnect() {
-        return newSucceededFuture();
+        var promise = newPromise();
+        this.channel.unsafe().disconnect(promise);
+        return promise;
     }
 
     @Override
     public ChannelFuture close() {
-        return newSucceededFuture();
+        var promise = newPromise();
+        this.channel.unsafe().close(promise);
+        return promise;
     }
 
     @Override
@@ -279,13 +287,13 @@ public class FakeChannelPipeline implements ChannelPipeline {
 
     @Override
     public ChannelFuture disconnect(ChannelPromise promise) {
-        promise.setSuccess();
+        this.channel.unsafe().disconnect(promise);
         return promise;
     }
 
     @Override
     public ChannelFuture close(ChannelPromise promise) {
-        promise.setSuccess();
+        this.channel.unsafe().close(promise);
         return promise;
     }
 
