@@ -2,6 +2,7 @@
 <!--
   Modified by yigemingzii, July 2026
   - Added fakeplayer-v26_1_2 dependency and copy target
+  - Declared shaded runtime dependencies directly
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -32,6 +33,22 @@
             <groupId>io.github.hello09x.fakeplayer</groupId>
             <artifactId>fakeplayer-api</artifactId>
             <version>${revision}</version>
+        </dependency>
+
+        <!-- Keep runtime libraries as direct shade inputs when project modules are installed separately. -->
+        <dependency>
+            <groupId>com.github.tanyaofei.devtools</groupId>
+            <artifactId>devtools-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.tanyaofei.devtools</groupId>
+            <artifactId>devtools-command</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.tanyaofei.devtools</groupId>
+            <artifactId>devtools-database</artifactId>
         </dependency>
 
         <dependency>

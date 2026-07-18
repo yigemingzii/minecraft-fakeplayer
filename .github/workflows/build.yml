@@ -1,5 +1,7 @@
 # Modified by yigemingzii, July 2026
 # - Build and verify every required remapped Spigot dependency
+# - Persist BuildTools outputs before later build steps can fail
+# - Verify required runtime classes before uploading the final jar
 name: Build
 
 on:
@@ -29,6 +31,13 @@ jobs:
           key: maven-all-${{ hashFiles('.github/workflows/build.yml', '**/pom.xml') }}
           restore-keys: maven-all-
 
+      - name: Restore Spigot remapped dependency cache
+        id: spigot-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.m2/repository/org/spigotmc
+          key: spigot-remapped-${{ runner.os }}-v1-1.20.1-1.20.2-1.20.4-1.20.6-1.21.1-1.21.3-1.21.4-1.21.5-1.21.6-1.21.8-1.21.10
+
       - name: Download BuildTools
         run: curl -sL -o BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
@@ -46,6 +55,13 @@ jobs:
               test -f "$JAR" || { echo "BuildTools did not install $JAR" >&2; exit 1; }
             fi
           done
+
+      - name: Save Spigot remapped dependency cache
+        if: steps.spigot-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.m2/repository/org/spigotmc
+          key: ${{ steps.spigot-cache.outputs.cache-primary-key }}
 
       - name: Install JDK 25
         run: |
@@ -86,6 +102,22 @@ jobs:
       - name: Package final jar (shade)
         run: |
           mvn package -pl fakeplayer-dist -Drevision=${{ env.REVISION }} -DskipTests --no-transfer-progress
+
+      - name: Verify final jar contents
+        run: |
+          JAR="target/fakeplayer-${REVISION}.jar"
+          test -f "$JAR"
+          jar tf "$JAR" > target/fakeplayer-contents.txt
+          for entry in \
+            io/github/hello09x/devtools/core/utils/Exceptions.class \
+            com/google/inject/Guice.class \
+            com/zaxxer/hikari/HikariDataSource.class \
+            io/github/hello09x/fakeplayer/v26_1_2/spi/NMSBridgeImpl.class; do
+            grep -Fxq "$entry" target/fakeplayer-contents.txt || {
+              echo "Missing required class in final jar: $entry" >&2
+              exit 1
+            }
+          done
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
