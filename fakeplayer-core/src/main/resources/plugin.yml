@@ -2,8 +2,8 @@ name: fakeplayer
 version: '${revision}'
 main: io.github.hello09x.fakeplayer.core.Main
 api-version: '1.20'
-author: hello09x
-website: 'https://github.com/tanyaofei/minecraft-fakeplayer'
+author: [hello09x, yigemingzii]
+website: 'https://github.com/yigemingzii/minecraft-fakeplayer'
 depend:
   - CommandAPI
 
