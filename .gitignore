@@ -1,3 +1,5 @@
+# Modified by yigemingzii, July 2026
+# - Ignore the local-only Minecraft 26.1.2 test package
 ### Maven template
 target/
 pom.xml.tag
@@ -128,5 +130,8 @@ server-*/
 server/
 
 buildtool/
+
+# Local-only package used for quick Minecraft 26.1.2 testing.
+/dist-26_1_2/
 
 .flattened-pom.xml

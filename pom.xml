@@ -3,6 +3,9 @@
   Modified by yigemingzii, July 2026
   - Added module fakeplayer-v26_1_2
   - Updated Lombok 1.18.34 -> 1.18.46
+  - Updated CommandAPI 11.0.0 -> 11.2.0 for Minecraft 26.1 support
+  - Enabled annotation processing for JDK 25 builds
+  - Flattened CI-friendly versions in installed Maven POMs
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -40,8 +43,9 @@
 
     <properties>
         <java.version>21</java.version>
+        <maven.compiler.proc>full</maven.compiler.proc>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>0.3.19</revision>
+        <revision>0.4.0</revision>
 
         <detools.version>0.1.7-SNAPSHOT</detools.version>
     </properties>
@@ -113,7 +117,7 @@
             <dependency>
                 <groupId>dev.jorel</groupId>
                 <artifactId>commandapi-paper-core</artifactId>
-                <version>11.0.0</version>
+                <version>11.2.0</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -131,5 +135,34 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.7.3</version>
+                <configuration>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

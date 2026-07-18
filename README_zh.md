@@ -2,6 +2,7 @@
   Modified by yigemingzii, July 2026
   - Added fork notice linking to original tanyaofei/minecraft-fakeplayer
   - Updated supported versions (1.21.x sub-versions, 26.1.2)
+  - Documented the CommandAPI 11.2.0 requirement for Minecraft 26.1.x
 -->
 # FakePlayer - 假人插件
 
@@ -31,7 +32,7 @@
 
 ## 前置插件:
 
-- [CommandAPI](https://commandapi.jorel.dev) (>=9.5.0, <= 9.7.0)
+- [CommandAPI](https://commandapi.jorel.dev)（Minecraft `26.1.x` 必须使用 `11.2.0`）
 
 ## 配置文件
 

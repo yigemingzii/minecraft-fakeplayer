@@ -1,3 +1,7 @@
+/*
+ * Modified by yigemingzii, July 2026
+ * - Updated the custom argument constructor for CommandAPI 11.2.0
+ */
 package io.github.hello09x.fakeplayer.core.command;
 
 import com.mojang.brigadier.StringReader;
@@ -35,7 +39,7 @@ public class FakePlayerCommandArgument extends Argument<CommandResult> implement
      * @param nodeName the name of the node for this argument
      */
     public FakePlayerCommandArgument(String nodeName) {
-        super(nodeName, StringArgumentType.greedyString());
+        super(nodeName, StringArgumentType::greedyString);
         applySuggestions();
     }
 

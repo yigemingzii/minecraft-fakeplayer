@@ -1,3 +1,5 @@
+# Modified by yigemingzii, July 2026
+# - Build and verify every required remapped Spigot dependency
 name: Build
 
 on:
@@ -8,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  REVISION: 0.3.19
+  REVISION: 0.4.0
 
 jobs:
   build:
@@ -32,13 +34,16 @@ jobs:
 
       - name: Build spigot remapped-mojang dependencies
         run: |
-          for version in 1.20.1 1.20.2 1.20.4 1.20.6 1.21 1.21.3 1.21.4 1.21.5 1.21.6 1.21.10; do
-            D=~/.m2/repository/org/spigotmc/spigot/$version-R0.1-SNAPSHOT
-            if [ -d "$D" ] && ls "$D"/*remapped-mojang* >/dev/null 2>&1; then
+          for version in 1.20.1 1.20.2 1.20.4 1.20.6 1.21 1.21.1 1.21.3 1.21.4 1.21.5 1.21.6 1.21.7 1.21.8 1.21.10; do
+            D="$HOME/.m2/repository/org/spigotmc/spigot/$version-R0.1-SNAPSHOT"
+            JAR="$D/spigot-$version-R0.1-SNAPSHOT-remapped-mojang.jar"
+            if [ -f "$JAR" ]; then
               echo "[skip] spigot $version (cached)"
             else
               echo "[build] spigot $version"
+              rm -f "$D"/*.lastUpdated
               java -jar BuildTools.jar --rev $version --remapped
+              test -f "$JAR" || { echo "BuildTools did not install $JAR" >&2; exit 1; }
             fi
           done
 
@@ -86,5 +91,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fakeplayer-${{ env.REVISION }}
-          path: target/fakeplayer-*.jar
+          path: target/fakeplayer-${{ env.REVISION }}.jar
           if-no-files-found: error

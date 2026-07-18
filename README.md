@@ -2,6 +2,7 @@
   Modified by yigemingzii, July 2026
   - Added fork notice linking to original tanyaofei/minecraft-fakeplayer
   - Updated supported versions to include 26.1.2
+  - Documented the CommandAPI 11.2.0 requirement for Minecraft 26.1.x
 -->
 # FakePlayer
 
@@ -26,7 +27,7 @@ This is a server side plugin inspired by [Carpet-Mod](https://github.com/gnembon
 ## Requirements
 
 + [Paper](https://papermc.io) or [Purpur](http://purpurmc.org) software
-+ [CommandAPI](https://commandapi.jorel.dev) Plugin (Any version **except** `10.0.0`)
++ [CommandAPI](https://commandapi.jorel.dev) Plugin (`11.2.0` is required on Minecraft `26.1.x`)
 
 ## Config file
 
