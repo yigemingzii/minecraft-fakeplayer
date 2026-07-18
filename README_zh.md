@@ -1,6 +1,13 @@
+<!--
+  Modified by yigemingzii, July 2026
+  - Added fork notice linking to original tanyaofei/minecraft-fakeplayer
+  - Updated supported versions (1.21.x sub-versions, 26.1.2)
+-->
 # FakePlayer - 假人插件
 
 [English](README.md) | 简体中文
+
+> 本仓库是 [tanyaofei/minecraft-fakeplayer](https://github.com/tanyaofei/minecraft-fakeplayer) 的个人 fork，遵循 Apache 2.0 许可证。
 
 这个插件模拟出真实的玩家来保证区块的加载以及怪物的生成，生电服利器。
 
@@ -11,7 +18,8 @@
 要求使用 JAVA 21 及以上
 
 + 支持 `1.20`, `1.20.2`, `1.20.3`, `1.20.4`, `1.20.5`, `1.20.6`
-+ 支持 `1.21`
++ 支持 `1.21`, `1.21.1`, `1.21.3`, `1.21.4`, `1.21.5`, `1.21.6`, `1.21.7`, `1.21.8`, `1.21.9`, `1.21.10`
++ 支持 `26.1.2`
 
 ## 特性
 

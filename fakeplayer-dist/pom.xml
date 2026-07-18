@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Modified by yigemingzii, July 2026
+  - Added fakeplayer-v26_1_2 dependency and copy target
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -125,7 +129,11 @@
             <artifactId>fakeplayer-v1_21_10</artifactId>
             <version>${revision}</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.github.hello09x.fakeplayer</groupId>
+            <artifactId>fakeplayer-v26_1_2</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -226,6 +234,11 @@
                                     </fileset>
                                 </copy>
                                 <copy tofile="../server-1.21.10/plugins/fakeplayer.jar">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="fakeplayer-${revision}.jar"/>
+                                    </fileset>
+                                </copy>
+                                <copy tofile="../server-26.1.2/plugins/fakeplayer.jar">
                                     <fileset dir="${project.build.directory}">
                                         <include name="fakeplayer-${revision}.jar"/>
                                     </fileset>

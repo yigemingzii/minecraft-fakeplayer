@@ -1,6 +1,8 @@
 package io.github.hello09x.fakeplayer.api.spi;
 
-import lombok.AllArgsConstructor;
+/* Modified by yigemingzii, July 2026
+ * - Replaced @AllArgsConstructor with explicit constructor for Lombok/Java compatibility
+ */
 import net.kyori.adventure.translation.Translatable;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
  * @author tanyaofei
  * @since 2024/8/9
  **/
-@AllArgsConstructor
 public
 enum ActionType implements Translatable {
 
@@ -53,6 +54,10 @@ enum ActionType implements Translatable {
     DROP_INVENTORY("fakeplayer.action.drop-inventory");
 
     final String translationKey;
+
+    ActionType(String translationKey) {
+        this.translationKey = translationKey;
+    }
 
 
     @Override

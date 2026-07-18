@@ -1,10 +1,17 @@
+<!--
+  Modified by yigemingzii, July 2026
+  - Added fork notice linking to original tanyaofei/minecraft-fakeplayer
+  - Updated supported versions to include 26.1.2
+-->
 # FakePlayer
 
 ![BANNER_IMAGE](.github/README/BANNER.png)
 
 English | [简体中文](README_zh.md)
 
-This is a server side plugin inspired by [Carpet-Mod](https://github.com/gnembon/fabric-carpet) for Minecraft `1.20.x` and `1.21.x` and above.
+> 本仓库是 [tanyaofei/minecraft-fakeplayer](https://github.com/tanyaofei/minecraft-fakeplayer) 的个人 fork，遵循 Apache 2.0 许可证。
+
+This is a server side plugin inspired by [Carpet-Mod](https://github.com/gnembon/fabric-carpet) for Minecraft `1.20.x`, `1.21.x` and `26.1.x`.
 
 [Click me](https://youtu.be/NePaDz-P5nI) to visit a demo video.
 

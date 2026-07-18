@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Modified by yigemingzii, July 2026
+  - Added module fakeplayer-v26_1_2
+  - Updated Lombok 1.18.34 -> 1.18.46
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -30,6 +35,7 @@
         <module>fakeplayer-v1_21_8</module>
         <module>fakeplayer-v1_21_9</module>
         <module>fakeplayer-v1_21_10</module>
+        <module>fakeplayer-v26_1_2</module>
     </modules>
 
     <properties>
@@ -75,7 +81,7 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.34</version>
+                <version>1.18.46</version>
                 <scope>provided</scope>
             </dependency>
 

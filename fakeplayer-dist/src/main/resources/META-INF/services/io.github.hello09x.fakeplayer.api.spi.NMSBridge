@@ -1,3 +1,4 @@
+# Modified by yigemingzii, July 2026 - added v26_1_2 provider
 io.github.hello09x.fakeplayer.v1_20_1.spi.NMSBridgeImpl
 io.github.hello09x.fakeplayer.v1_20_2.spi.NMSBridgeImpl
 io.github.hello09x.fakeplayer.v1_20_3.spi.NMSBridgeImpl
@@ -14,4 +15,5 @@ io.github.hello09x.fakeplayer.v1_21_7.spi.NMSBridgeImpl
 io.github.hello09x.fakeplayer.v1_21_8.spi.NMSBridgeImpl
 io.github.hello09x.fakeplayer.v1_21_9.spi.NMSBridgeImpl
 io.github.hello09x.fakeplayer.v1_21_10.spi.NMSBridgeImpl
+io.github.hello09x.fakeplayer.v26_1_2.spi.NMSBridgeImpl
 

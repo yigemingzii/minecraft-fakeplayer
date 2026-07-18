@@ -1,0 +1,117 @@
+name: Build
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  REVISION: 0.3.19
+
+jobs:
+  spigot-deps:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 1.20.1
+          - 1.20.2
+          - 1.20.4
+          - 1.20.6
+          - 1.21
+          - 1.21.3
+          - 1.21.4
+          - 1.21.5
+          - 1.21.6
+          - 1.21.10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: spigot-${{ matrix.version }}-v4
+          restore-keys: spigot-${{ matrix.version }}-
+      - name: BuildTools --rev ${{ matrix.version }}
+        run: |
+          D=~/.m2/repository/org/spigotmc/spigot/${{ matrix.version }}-R0.1-SNAPSHOT
+          if [ -d "$D" ] && ls "$D"/*remapped-mojang* >/dev/null 2>&1; then
+            echo "Cached"
+          else
+            curl -sL -o BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+            java -jar BuildTools.jar --rev ${{ matrix.version }} --remapped
+          fi
+
+  build:
+    needs: spigot-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-${{ runner.os }}-
+            spigot-
+
+      - name: Install JDK 25
+        run: |
+          if [ ! -d /opt/jdk-25 ]; then
+            curl -sL "https://api.azul.com/metadata/v1/zulu/packages/?java_version=25&os=linux&arch=x86_64&latest=true" \
+              | grep -o '"download_url":"[^"]*"' | head -1 | cut -d'"' -f4 | xargs curl -sL -o zulu25.tar.gz
+            mkdir -p /opt/jdk-25
+            tar -xzf zulu25.tar.gz -C /opt/jdk-25 --strip-components=1
+          fi
+          echo "JDK25_HOME=/opt/jdk-25" >> $GITHUB_ENV
+
+      - name: Prepare dependencies
+        run: |
+          mkdir -p lib versions/26.1.2
+          # Paper 26.1.2 server jar (for v26_1_2 compilation)
+          if [ ! -f versions/26.1.2/paper-26.1.2.jar ]; then
+            curl -sL -o lib/paper-26.1.2-server.jar \
+              "https://fill-data.papermc.io/v1/objects/1d70b1dab9cf4a6de615209a536f3a45a2186240253c428213ce2188ab95e5f7/paper-26.1.2-74.jar"
+            $JDK25_HOME/bin/java -jar lib/paper-26.1.2-server.jar --help || true
+          fi
+          # OpenInv & PlaceholderAPI (runtime deps for core)
+          [ -f lib/OpenInv.jar ] || curl -sL -o lib/OpenInv.jar \
+            "https://cdn.modrinth.com/data/1UlvXbzL/versions/eRnnClIe/OpenInv.jar"
+          [ -f lib/PlaceholderAPI-2.11.6.jar ] || curl -sL -o lib/PlaceholderAPI-2.11.6.jar \
+            "https://cdn.modrinth.com/data/lKEzGugV/versions/vkuwyUC6/PlaceholderAPI-2.11.6.jar"
+
+      - name: Install all 1.20.x / 1.21.x modules (JDK 21)
+        run: |
+          mvn install \
+            -pl fakeplayer-v1_20_1,fakeplayer-v1_20_2,fakeplayer-v1_20_3,fakeplayer-v1_20_4,fakeplayer-v1_20_5,fakeplayer-v1_20_6,\
+fakeplayer-v1_21,fakeplayer-v1_21_1,fakeplayer-v1_21_3,fakeplayer-v1_21_4,fakeplayer-v1_21_5,\
+fakeplayer-v1_21_6,fakeplayer-v1_21_7,fakeplayer-v1_21_8,fakeplayer-v1_21_9,fakeplayer-v1_21_10 \
+            -am -Drevision=${{ env.REVISION }} -DskipTests --no-transfer-progress
+
+      - name: Install v26_1_2 (JDK 25)
+        run: |
+          export JAVA_HOME=$JDK25_HOME
+          mvn install -pl fakeplayer-v26_1_2 -Drevision=${{ env.REVISION }} -DskipTests --no-transfer-progress
+
+      - name: Package final jar (shade)
+        run: |
+          mvn package -pl fakeplayer-dist -Drevision=${{ env.REVISION }} -DskipTests --no-transfer-progress
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fakeplayer-${{ env.REVISION }}
+          path: target/fakeplayer-*.jar
+          if-no-files-found: error
