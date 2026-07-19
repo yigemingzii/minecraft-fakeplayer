@@ -15,6 +15,7 @@
  */
 package io.github.hello09x.fakeplayer.v26_1_2.network;
 
+import com.mojang.datafixers.DataFixer;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.server.PlayerAdvancements;
@@ -27,12 +28,13 @@ import java.nio.file.Path;
 public class FakePlayerAdvancements extends PlayerAdvancements {
 
     public FakePlayerAdvancements(
+            DataFixer datafixer,
             PlayerList playerlist,
             ServerAdvancementManager manager,
             Path path,
             ServerPlayer player
     ) {
-        super(null, playerlist, manager, path, player);
+        super(datafixer, playerlist, manager, path, player);
         this.save();
     }
 

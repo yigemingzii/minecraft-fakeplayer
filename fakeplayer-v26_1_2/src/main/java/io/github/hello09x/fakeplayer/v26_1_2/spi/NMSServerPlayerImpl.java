@@ -21,6 +21,7 @@ import io.github.hello09x.fakeplayer.core.util.Reflections;
 import io.github.hello09x.fakeplayer.v26_1_2.network.FakePlayerAdvancements;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.server.PlayerAdvancements;
@@ -29,6 +30,7 @@ import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.ChatVisiblity;
+import net.minecraft.world.level.storage.ValueInputContextHelper;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.CraftServer;
@@ -212,6 +214,7 @@ public class NMSServerPlayerImpl implements NMSServerPlayer {
             ServerPlayer$advancements.set(
                     handle,
                     new FakePlayerAdvancements(
+                            server.getFixerUpper(),
                             server.getPlayerList(),
                             server.getAdvancements(),
                             plugin.getDataFolder().getParentFile().toPath(),
@@ -230,7 +233,7 @@ public class NMSServerPlayerImpl implements NMSServerPlayer {
 
     @Override
     public void setPlayBefore() {
-        handle.getBukkitEntity().hasPlayedBefore();
+        player.readExtraData(new ValueInputContextHelper(handle.registryAccess(), NbtOps.INSTANCE).empty());
     }
 
     @Override
