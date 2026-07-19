@@ -3,6 +3,7 @@
   - Added fork notice linking to original tanyaofei/minecraft-fakeplayer
   - Updated supported versions (1.21.x sub-versions, 26.1.2)
   - Documented the CommandAPI 11.2.0 requirement for Minecraft 26.1.x
+  - Clarified licensing and attribution
 -->
 # FakePlayer - 假人插件
 
@@ -245,4 +246,10 @@ allow-commands:
 # 构建项目
 
 看这个[指引](./BUILD.md)
+
+# 许可证与归属
+
+本项目采用 [Apache License 2.0](LICENSE.txt) 许可证，归属信息见 [NOTICE](NOTICE)。
+
+原项目由 [tanyaofei（hello09x）及其贡献者](https://github.com/tanyaofei/minecraft-fakeplayer) 开发。本 fork 的修改部分 Copyright 2026 yigemingzii。
 

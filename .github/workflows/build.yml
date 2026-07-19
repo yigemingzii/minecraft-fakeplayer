@@ -1,7 +1,16 @@
-# Modified by yigemingzii, July 2026
-# - Build and verify every required remapped Spigot dependency
-# - Persist BuildTools outputs before later build steps can fail
-# - Verify required runtime classes before uploading the final jar
+# Copyright 2026 yigemingzii
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 name: Build
 
 on:
@@ -112,7 +121,9 @@ jobs:
             io/github/hello09x/devtools/core/utils/Exceptions.class \
             com/google/inject/Guice.class \
             com/zaxxer/hikari/HikariDataSource.class \
-            io/github/hello09x/fakeplayer/v26_1_2/spi/NMSBridgeImpl.class; do
+            io/github/hello09x/fakeplayer/v26_1_2/spi/NMSBridgeImpl.class \
+            META-INF/LICENSE.txt \
+            META-INF/NOTICE; do
             grep -Fxq "$entry" target/fakeplayer-contents.txt || {
               echo "Missing required class in final jar: $entry" >&2
               exit 1

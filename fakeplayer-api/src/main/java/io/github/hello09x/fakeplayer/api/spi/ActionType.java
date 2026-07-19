@@ -1,8 +1,9 @@
-package io.github.hello09x.fakeplayer.api.spi;
-
-/* Modified by yigemingzii, July 2026
+/*
+ * Modified by yigemingzii, July 2026
  * - Replaced @AllArgsConstructor with explicit constructor for Lombok/Java compatibility
  */
+package io.github.hello09x.fakeplayer.api.spi;
+
 import net.kyori.adventure.translation.Translatable;
 import org.jetbrains.annotations.NotNull;
 

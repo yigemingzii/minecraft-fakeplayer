@@ -51,18 +51,16 @@ public class FakeConnection extends Connection {
 
     @Override
     public void send(Packet<?> packet) {
-
+        this.completeSend(null);
     }
 
     private void completeSend(@Nullable ChannelFutureListener listener) {
-        if (listener == null) {
-            return;
-        }
-
-        try {
-            listener.operationComplete(this.channel.newSucceededFuture());
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to complete fake connection send", e);
+        if (listener != null) {
+            try {
+                listener.operationComplete(this.channel.newSucceededFuture());
+            } catch (Exception e) {
+                throw new IllegalStateException("Failed to complete fake connection send", e);
+            }
         }
 
         if (!this.isConnected()) {
