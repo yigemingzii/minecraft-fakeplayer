@@ -3,6 +3,7 @@
   Modified by yigemingzii, July 2026
   - Added fakeplayer-v26_1_2 dependency and copy target
   - Declared shaded runtime dependencies directly
+  - Included project license and attribution files in the distribution jar
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -156,6 +157,20 @@
     <build>
         <directory>../target</directory>
         <finalName>fakeplayer-${revision}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/..</directory>
+                <targetPath>META-INF</targetPath>
+                <filtering>false</filtering>
+                <includes>
+                    <include>LICENSE.txt</include>
+                    <include>NOTICE</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

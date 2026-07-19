@@ -1,8 +1,10 @@
+# Modified by yigemingzii, July 2026
+# - Added fork maintainer attribution and updated the project website
 name: fakeplayer
 version: '${revision}'
 main: io.github.hello09x.fakeplayer.core.Main
 api-version: '1.20'
-author: [hello09x, yigemingzii]
+authors: [hello09x, yigemingzii]
 website: 'https://github.com/yigemingzii/minecraft-fakeplayer'
 depend:
   - CommandAPI
